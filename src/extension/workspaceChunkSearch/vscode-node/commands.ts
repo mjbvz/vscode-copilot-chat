@@ -34,29 +34,29 @@ export function register(accessor: ServicesAccessor): IDisposable {
 
 			if (triggerResult.isError()) {
 				if (triggerResult.err.id !== TriggerRemoteIndexingError.alreadyIndexed.id) {
-					vscode.window.showWarningMessage(t`Could not build codebase index. ` + '\n\n' + triggerResult.err.userMessage);
+					vscode.window.showWarningMessage(t`Could not build semantic codebase index. ` + '\n\n' + triggerResult.err.userMessage);
 					return;
 				}
 			}
 
-			vscode.window.showInformationMessage(t`Codebase index ready to use.`);
+			vscode.window.showInformationMessage(t`Semantic codebase index ready to use.`);
 		});
 	})));
 
 	disposableStore.add(vscode.commands.registerCommand(deleteExternalIngestWorkspaceIndexCommandId, onlyRunOneAtATime(async () => {
 		await vscode.window.withProgress({
 			location: vscode.ProgressLocation.Window,
-			title: t`Deleting external ingest index...`,
+			title: t`Deleting external ingest codebase index...`,
 		}, async () => {
 			await workspaceChunkSearch.deleteExternalIngestWorkspaceIndex();
-			vscode.window.showInformationMessage(t`External ingest index deleted.`);
+			vscode.window.showInformationMessage(t`External ingest codebase index deleted.`);
 		});
 	})));
 
 	disposableStore.add(vscode.commands.registerCommand('github.copilot.debug.collectWorkspaceIndexDiagnostics', async () => {
 		vscode.window.withProgress({
 			location: vscode.ProgressLocation.Window,
-			title: t`Collecting workspace index diagnostics...`,
+			title: t`Collecting codebase index diagnostics...`,
 		}, async () => {
 			const document = await vscode.workspace.openTextDocument({ language: 'markdown' });
 			const editor = await vscode.window.showTextDocument(document);
